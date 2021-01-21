@@ -8,6 +8,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+PATH = '/Users/leslie/PycharmProjects/NTUEEE/EE7403'
 img = cv2.imread('len_full.jpg', 1)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 count = np.zeros(256, np.float)
@@ -18,6 +19,7 @@ def pltHistogram(input, name, color):
     plt.figure()
     plt.title(name)
     plt.bar(x, input, color=color)
+    plt.savefig(f'Imgs/{name}.png')
     plt.show()
 
 
@@ -25,11 +27,11 @@ def getHistogram(gray):
     global count
     for i in range(gray.shape[0]):
         for j in range(gray.shape[1]):
-            count[int(gray[i, j])] += 1  # 统计该像素出现的次数
-    count = count / (gray.shape[0] * gray.shape[1])  # 概率
+            count[int(gray[i, j])] += 1
+    count = count / (gray.shape[0] * gray.shape[1])  # nt/n
 
 
-def getCumulative():  # 计算累计概率
+def getCumulative():
     for i in range(1, 256):
         count[i] += count[i - 1]
 
@@ -40,7 +42,7 @@ pltHistogram(count, "Original", 'b')
 getCumulative()
 
 '''
-通过累计函数映射，使得处理后的直方图的累计函数是一个近似 y = x 的函数
+通过累计函数映射，使得处理后的直方图的累计分布函数是一个近似 y = x 的函数
 
 '''
 map1 = count * 255
@@ -58,8 +60,6 @@ pltHistogram(count, "HistogramEqualization", 'b')
 count2 = count
 getCumulative()
 pltHistogram(count, "Cumulative", 'r')
-
-_ = 1 + 1
 
 #cv2.imshow('gray', gray)
 #cv2.waitKey(0)
