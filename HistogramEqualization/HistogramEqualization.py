@@ -19,7 +19,7 @@ def pltHistogram(input, name, color):
     plt.figure()
     plt.title(name)
     plt.bar(x, input, color=color)
-    plt.savefig(f'Imgs/{name}.png')
+    plt.savefig(f'{PATH}/Imgs/{name}.png')
     plt.show()
 
 
